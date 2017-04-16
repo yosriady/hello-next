@@ -1,16 +1,21 @@
-import Layout from '../components/MyLayout'
+import Layout from '../components/MyLayout.js'
 import Link from 'next/link'
 
-// Link is a Higher order component that takes a component and returns
-// a new component. https://facebook.github.io/react/docs/higher-order-components.html
-
-const Index = () => (
-  <Layout>
-    <p>This is the index page</p>
-    <Link href='/about'>
-      <a style={{ fontSize: 20 }}>About</a>
+const PostLink = (props) => (
+  <li>
+    <Link href={`/post?title=${props.title}`}>
+      <a>{props.title}</a>
     </Link>
-  </Layout>
+  </li>
 )
 
-export default Index
+export default () => (
+  <Layout>
+    <h1>My Blog</h1>
+    <ul>
+      <PostLink title="Hello Next.js" />
+      <PostLink title="Learn Next.js is awesome" />
+      <PostLink title="Deploy apps with Zeit" />
+    </ul>
+  </Layout>
+)
