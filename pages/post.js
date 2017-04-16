@@ -1,23 +1,22 @@
 import Layout from '../components/MyLayout.js'
+import fetch from 'isomorphic-unfetch'
 
-const Content = (props) => (
-  <div>
-    <h1>{props.url.query.title}</h1>
-    <p>This is the blog post content.</p>
-  </div>
-)
-
-export default (props) => (
+const Post = (props) => (
     <Layout>
-       <Content url={props.url} />
+       <h1>{props.movie.Title}</h1>
+       <p>{props.movie.Plot}</p>
+       <img src={props.movie.Poster}/>
     </Layout>
 )
 
-// Here's what's happening in the above code.
+Post.getInitialProps = async function (context) {
+  const { id } = context.query
+  const res = await fetch(`http://www.omdbapi.com/?i=${id}`)
+  const movie = await res.json()
 
-// Every page will get a prop called “URL”
-// which has some details related to the current URL.
+  console.log(`Fetched movie: ${movie.Title}`)
 
-// In this case, we are using the “query” object,
-// which has the query string params.
-// Therefore, we get the title with props.url.query.title.
+  return { movie }
+}
+
+export default Post
